@@ -1,25 +1,21 @@
-FROM alpine:3.18
+FROM openjdk:11-jre-slim
 
-# Install OpenJDK and other dependencies
-RUN apk add --no-cache openjdk11-jre-headless curl bash
-
-# Download and install JMeter
 ENV JMETER_VERSION=5.6.3
 ENV JMETER_HOME=/opt/apache-jmeter-${JMETER_VERSION}
 ENV JMETER_BIN=${JMETER_HOME}/bin
 ENV PATH=$PATH:${JMETER_BIN}
 
-RUN mkdir -p /tmp/dependencies \
-    && curl -L --silent https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz > /tmp/dependencies/apache-jmeter-${JMETER_VERSION}.tgz \
-    && mkdir -p /opt \
-    && tar -xzf /tmp/dependencies/apache-jmeter-${JMETER_VERSION}.tgz -C /opt \
-    && rm -rf /tmp/dependencies
+# Descargar e instalar JMeter
+RUN apt-get update && apt-get install -y curl tar && \
+    curl -L --silent https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz \
+        -o /tmp/apache-jmeter-${JMETER_VERSION}.tgz && \
+    mkdir -p /opt && \
+    tar -xzf /tmp/apache-jmeter-${JMETER_VERSION}.tgz -C /opt && \
+    rm /tmp/apache-jmeter-${JMETER_VERSION}.tgz
 
-# For educational purposes, we'll create a simple JMeter setup
-# In production, you would add the Prometheus listener JAR here
-# COPY jmeter-prometheus-listener.jar ${JMETER_HOME}/lib/ext/jmeter-prometheus-listener.jar
+# Copiar el Prometheus Listener
+COPY jmeter-prometheus-listener.jar ${JMETER_HOME}/lib/ext/
 
-# Expose the Prometheus scrape port used by the listener
 EXPOSE 9270
 
 WORKDIR ${JMETER_HOME}
