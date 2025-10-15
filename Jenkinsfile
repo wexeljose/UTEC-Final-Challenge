@@ -387,7 +387,7 @@ EOF
             echo "📊 Performance Test Results:"
             echo "   Total Requests: ${results}"
             echo "   Errors: ${errors}"
-            echo "   Success Rate: ${((successRate * 10).toDouble().round() / 10)}%"
+         //   echo "   Success Rate: ${((successRate * 10).toDouble().round() / 10)}%"
             echo "   Average Response Time: ${avgResponse}ms"
             echo "   Max Response Time: ${maxResponse}ms"
 
@@ -426,7 +426,7 @@ EOF
             }
 
             // Enhanced build description with more metrics
-            currentBuild.description = "Success: ${((successRate * 10).toDouble().round() / 10)}% | Avg: ${avgResponse}ms | Max: ${maxResponse}ms | Requests: ${results}"
+            // currentBuild.description = "Success: ${((successRate * 10).toDouble().round() / 10)}% | Avg: ${avgResponse}ms | Max: ${maxResponse}ms | Requests: ${results}"
 
             echo "📈 Performance Plugin will provide detailed trends and comparisons"
             echo "📊 Check 'Performance Trend' graph in project dashboard"
