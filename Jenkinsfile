@@ -36,7 +36,8 @@ pipeline {
     stage('Checkout') {
       steps {
         checkout scm
-        echo "Starting Performance Testing Pipeline for ${env.BRANCH_NAME}"
+        def branch = env.BRANCH_NAME ?: 'master'
+        echo "Starting Performance Testing Pipeline for ${branch}"
       }
     }
 
